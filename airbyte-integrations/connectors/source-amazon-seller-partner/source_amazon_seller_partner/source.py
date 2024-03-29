@@ -88,14 +88,14 @@ class SourceAmazonSellerPartner(AbstractSource):
         start_date = (
             config.get("replication_start_date")
             if config.get("replication_start_date")
-            else pendulum.now("utc").subtract(years=2).strftime("%Y-%m-%dT%H:%M:%SZ")
+            else pendulum.now("utc").subtract(years=2).start_of("day").strftime("%Y-%m-%dT%H:%M:%SZ")
         )
         stream_kwargs = {
             "url_base": endpoint,
             "authenticator": auth,
             "replication_start_date": start_date,
             "marketplace_id": marketplace_id,
-            "period_in_days": config.get("period_in_days", 30),
+            "period_in_days": config.get("period_in_days"),
             "replication_end_date": config.get("replication_end_date"),
         }
         return stream_kwargs
